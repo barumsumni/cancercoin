@@ -29,7 +29,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x0a59605118489aa9cde58e64210d3d56e246758fbabcd1482e54bf4032545221");
+uint256 hashGenesisBlock("0xaf98f80ee42e8c9b57829b9b0d48bc8368a8bdc52d73ddc2185c265f0f9e60a9");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // CancerCoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -828,47 +828,47 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 25.0 * COIN;
+    int64 nSubsidy = 1000.0 * COIN;
 		
 	if(nHeight < 90)  
     {
-        nSubsidy = 0 * COIN;
+        nSubsidy = 30 * COIN;
     }
 	else if(nHeight < 180)  
     {
-        nSubsidy = 1 * COIN;
+        nSubsidy = 150 * COIN;
     }
     else if(nHeight < 270)   
     {
-        nSubsidy = 2 * COIN;
+        nSubsidy = 200 * COIN;
     }
     else if(nHeight < 360)   
     {
-        nSubsidy = 3 * COIN;
+        nSubsidy = 250 * COIN;
     }
 	else if(nHeight < 450)   
     {
-        nSubsidy = 6 * COIN;
+        nSubsidy = 300 * COIN;
     }
 	else if(nHeight < 540)   
     {
-        nSubsidy = 8 * COIN;
+        nSubsidy = 350 * COIN;
     }
 	else if(nHeight < 630)   
     {
-        nSubsidy = 12 * COIN;
+        nSubsidy = 400 * COIN;
     }
 	else if(nHeight < 720)   
     {
-        nSubsidy = 15 * COIN;
+        nSubsidy = 450 * COIN;
     }
 	else if(nHeight < 810)   
     {
-        nSubsidy = 18 * COIN;
+        nSubsidy = 500 * COIN;
     }
 	else if(nHeight < 900)   
     {
-        nSubsidy = 22 * COIN;
+        nSubsidy = 550 * COIN;
     }
 
     nSubsidy >>= (nHeight / 3000000); //halve block reward every 3 million blocks
@@ -877,8 +877,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 }
 
 	//New Protocol
-	static int64 nTargetTimespan = 10 * 60; // Retarget every 10 blocks (10 minutes)
-	static int64 nTargetSpacing = 1 * 60; // 60 seconds
+	static int64 nTargetTimespan = 1 * 60*60*12; // Retarget every 10 blocks (10 minutes)
+	static int64 nTargetSpacing = 1 * 90; // 60 seconds
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -2043,7 +2043,7 @@ bool LoadBlockIndex(bool fAllowNew)
         pchMessageStart[1] = 0xc1;
         pchMessageStart[2] = 0xb7;
         pchMessageStart[3] = 0xdc;
-        hashGenesisBlock = uint256("0x0a59605118489aa9cde58e64210d3d56e246758fbabcd1482e54bf4032545221");
+        hashGenesisBlock = uint256("0xaf98f80ee42e8c9b57829b9b0d48bc8368a8bdc52d73ddc2185c265f0f9e60a9");
     }
 
     //
@@ -2063,25 +2063,25 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
 
         // Genesis block
-        const char* pszTimestamp = "June 7 2013, The Times, Prince Philip admitted to hospital for two weeks";
+        const char* pszTimestamp = "Thursday Day after Christmas ";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 1250000 * COIN;
+        txNew.vout[0].nValue = 100000000 * COIN;
         txNew.vout[0].scriptPubKey = CScript() << ParseHex("0449D77B9B62E0DB1FD6150ECFC5722F31FEE52E585DE31B5AEFAD2CAC415D5698991F8F0B0CBBA7B9F4431BBE79B684876EDFBD369554ACC4182753FA48A3CD80") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1370579804;
+        block.nTime    = 1388114496;
         block.nBits    = 0x1e0fffff;
-        block.nNonce   = 2788;
+        block.nNonce   = 1060467;
 
         if (fTestNet)
         {
-            block.nTime    = 0;    
+            block.nTime    = 1388114496;    
             block.nNonce   = 0;
         }
 
@@ -2090,10 +2090,10 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
         
-		assert(block.hashMerkleRoot == uint256("0x22fafe4f684eed751b2ffea656b0ca28a0ad34c6b584872a96350e09f681f49a"));
+		assert(block.hashMerkleRoot == uint256("0xbc15410cf5bd80188551edfe545f483f6e9f563de190e131376b5356c11d05da"));
 
         // If genesis block hash does not match, then generate new genesis hash.
-        if (false && block.GetHash() != hashGenesisBlock)
+        if (true && block.GetHash() != hashGenesisBlock)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
